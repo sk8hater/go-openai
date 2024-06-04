@@ -134,6 +134,13 @@ func (c *Client) sendRequest(req *http.Request, v Response) error {
 	}
 
 	if isFailureStatusCode(res) {
+		// print the body for debugging
+		if res.Body != nil {
+			b, err := io.ReadAll(res.Body)
+			if err == nil {
+				fmt.Println("Error response body: ", string(b))
+			}
+		}
 		return c.handleErrorResp(res)
 	}
 
